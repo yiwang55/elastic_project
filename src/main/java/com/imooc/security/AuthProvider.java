@@ -1,7 +1,7 @@
 package com.imooc.security;
 
 import com.imooc.entity.User;
-import com.imooc.service.IUserService;
+import com.imooc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 public class AuthProvider implements AuthenticationProvider {
 
     @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
     private final Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 
@@ -23,7 +23,7 @@ public class AuthProvider implements AuthenticationProvider {
         String userName = authentication.getName();
         String inputPassword = (String) authentication.getCredentials();
 
-        User user = iUserService.findUserByName(userName);
+        User user = userService.findUserByName(userName);
         if (user == null){
             throw new AuthenticationCredentialsNotFoundException("authError: user not exists");
         }

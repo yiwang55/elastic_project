@@ -41,7 +41,7 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
         String url = request.getRequestURI().replace(request.getContextPath(), "");
         //访问路径匹配，跳转对应的url
         for (Map.Entry<String, String> urlMatcherEntry : authEntryPointMap.entrySet()) {
-            if (pathMatcher.match(urlMatcherEntry.getKey(), url)){
+            if (pathMatcher.match(url, urlMatcherEntry.getKey())){
                 return urlMatcherEntry.getValue();
             }
         }

@@ -27,16 +27,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 资源访问权限
         http.authorizeRequests()
-                .antMatchers("/admin/login").permitAll()//管理员登录入口
-                .antMatchers("/static/**").permitAll()//静态资源
-                .antMatchers("/user/login").permitAll()//用户登录入口
+                .antMatchers("/admin/login").permitAll() // 管理员登录入口
+                .antMatchers("/static/**").permitAll() // 静态资源
+                .antMatchers("/user/login").permitAll() // 用户登录入口
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/api/user/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/user/**").hasAnyRole("ADMIN",
+                "USER")
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login")//配置角色登录处理入口
-                .failureHandler(loginAuthFailHandler())
+                .loginProcessingUrl("/login") // 配置角色登录处理入口
+                .failureHandler(authFailHandler())
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -45,9 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(loginUrlEntryPoint())
-                .accessDeniedPage("/403")
-                .and();
+                .authenticationEntryPoint(urlEntryPoint())
+                .accessDeniedPage("/403");
 
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
@@ -68,12 +68,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public LoginUrlEntryPoint loginUrlEntryPoint() {
+    public LoginUrlEntryPoint urlEntryPoint() {
         return new LoginUrlEntryPoint(LOGIN_FORM_URL);
     }
 
     @Bean
-    public LoginAuthFailHandler loginAuthFailHandler(){
-        return new LoginAuthFailHandler(loginUrlEntryPoint());
+    public LoginAuthFailHandler authFailHandler(){
+        return new LoginAuthFailHandler(urlEntryPoint());
     }
 }

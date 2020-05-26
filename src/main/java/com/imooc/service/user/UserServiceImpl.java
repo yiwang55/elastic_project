@@ -4,7 +4,7 @@ import com.imooc.entity.Role;
 import com.imooc.entity.User;
 import com.imooc.repository.RoleRepository;
 import com.imooc.repository.UserRepository;
-import com.imooc.service.IUserService;
+import com.imooc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IUserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
